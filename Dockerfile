@@ -213,7 +213,8 @@ ENTRYPOINT ["docker-php-entrypoint"]
 RUN apt-get update && apt-get install -y libc-client-dev libkrb5-dev libzip-dev --no-install-recommends && rm -rf /var/lib/apt/lists/*
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/
 RUN docker-php-ext-configure imap --with-imap-ssl --with-kerberos
-RUN docker-php-ext-install -j$(nproc) gd imap zip mysqli pdo_mysql iconv
+RUN docker-php-ext-install -j$(nproc) gd imap zip mysqli pdo_mysql iconv 
+RUN pecl install mcrypt-1.0.2 && docker-php-ext-enable mcrypt
 
 # Configure Apache as needed
 RUN a2enmod proxy proxy_http proxy_ajp rewrite deflate substitute headers \
