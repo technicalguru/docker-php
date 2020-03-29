@@ -3,8 +3,8 @@
 #
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
-
-FROM debian:stretch
+# 10.3 is buster (latest as of March 2020)
+FROM debian:10.3
 
 #RUN printf "deb http://archive.debian.org/debian/ jessie main\ndeb-src http://archive.debian.org/debian/ jessie main\ndeb http://security.debian.org jessie/updates main\ndeb-src http://security.debian.org jessie/updates main" > /etc/apt/sources.list
 
@@ -23,6 +23,7 @@ ENV PHPIZE_DEPS \
 #        libsodium-dev \
 		make \
 		pkg-config \
+        gpg-agent \
 		re2c
 RUN apt-get update && apt-get install -y \
 		$PHPIZE_DEPS \
