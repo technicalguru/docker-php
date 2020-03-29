@@ -116,9 +116,9 @@ ENV PHP_CPPFLAGS="$PHP_CFLAGS"
 ENV PHP_LDFLAGS="-Wl,-O1 -Wl,--hash-style=both -pie"
 
 ENV GPG_KEYS CBAF69F173A0FEA4B537F470D66C9593118BCCB6 F38252826ACD957EF380D39F2F7956BC5DA04B5D
-ENV PHP_VERSION 7.3.6
-ENV PHP_URL="https://www.php.net/get/php-7.3.6.tar.xz/from/this/mirror" PHP_ASC_URL="https://www.php.net/get/php-7.3.6.tar.xz.asc/from/this/mirror"
-ENV PHP_SHA256="fefc8967daa30ebc375b2ab2857f97da94ca81921b722ddac86b29e15c54a164" PHP_MD5=""
+ENV PHP_VERSION 7.3.16
+ENV PHP_URL="https://www.php.net/get/php-7.3.16.tar.xz/from/this/mirror" PHP_ASC_URL="https://www.php.net/get/php-7.3.16.tar.xz.asc/from/this/mirror"
+ENV PHP_SHA256="91aaee3dbdc71b69b4f3292f9d99211172a2fa926c3f3bbdb0e85dab03dd2bcb" PHP_MD5=""
 
 #ENV GPG_KEYS A917B1ECDA84AEC2B568FED6F50ABC807BD5DCD0 528995BFEDFBA7191D46839EF9BA0ADA31CBD89E
 #ENV PHP_VERSION 7.1.1
@@ -144,10 +144,10 @@ RUN set -xe; \
 	wget -O php.tar.xz "$PHP_URL"; \
 	\
 	if [ -n "$PHP_SHA256" ]; then \
-		echo "$PHP_SHA256 *php.tar.xz" | sha256sum -c -; \
+		echo "$PHP_SHA256  php.tar.xz" | sha256sum -c ; \
 	fi; \
 	if [ -n "$PHP_MD5" ]; then \
-		echo "$PHP_MD5 *php.tar.xz" | md5sum -c -; \
+		echo "$PHP_MD5 php.tar.xz" | md5sum -c -; \
 	fi; \
 	\
 	if [ -n "$PHP_ASC_URL" ]; then \
