@@ -119,21 +119,10 @@ ENV PHP_CFLAGS="-fstack-protector-strong -fpic -fpie -O2"
 ENV PHP_CPPFLAGS="$PHP_CFLAGS"
 ENV PHP_LDFLAGS="-Wl,-O1 -Wl,--hash-style=both -pie"
 
-#ENV GPG_KEYS CBAF69F173A0FEA4B537F470D66C9593118BCCB6 F38252826ACD957EF380D39F2F7956BC5DA04B5D 
 ENV GPG_KEYS "42670A7FE4D0441C8E4632349E4FDC074A4EF02D 5A52880781F755608BF815FC910DEB46F53EA312"
-#5A52880781F755608BF815FC910DEB46F53EA312
-ENV PHP_VERSION 7.4.4
-ENV PHP_URL="https://www.php.net/get/php-7.4.4.tar.xz/from/this/mirror" PHP_ASC_URL="https://www.php.net/get/php-7.4.4.tar.xz.asc/from/this/mirror"
-ENV PHP_SHA256="1873c4cefdd3df9a78dcffb2198bba5c2f0464f55c9c960720c84df483fca74c" PHP_MD5=""
-
-#ENV GPG_KEYS A917B1ECDA84AEC2B568FED6F50ABC807BD5DCD0 528995BFEDFBA7191D46839EF9BA0ADA31CBD89E
-#ENV PHP_VERSION 7.1.1
-#ENV PHP_URL="https://secure.php.net/get/php-7.1.1.tar.xz/from/this/mirror" PHP_ASC_URL="https://secure.php.net/get/php-7.1.1.tar.xz.asc/from/this/mirror"
-#ENV PHP_SHA256="b3565b0c1441064eba204821608df1ec7367abff881286898d900c2c2a5ffe70" PHP_MD5="65eef256f6e7104a05361939f5e23ada"
-#ENV GPG_KEYS A917B1ECDA84AEC2B568FED6F50ABC807BD5DCD0 528995BFEDFBA7191D46839EF9BA0ADA31CBD89E 1729F83938DA44E27BA0F4D3DBDB397470D12172
-#ENV PHP_VERSION 7.1.30
-#ENV PHP_URL="https://www.php.net/get/php-7.1.30.tar.xz/from/this/mirror" PHP_ASC_URL="https://www.php.net/get/php-7.1.30.tar.xz.asc/from/this/mirror"
-#ENV PHP_SHA256="6310599811536dbe87e4bcf212bf93196bdfaff519d0c821e4c0068efd096a7c" PHP_MD5=""
+ENV PHP_VERSION 7.4.10
+ENV PHP_URL="https://www.php.net/get/php-7.4.10.tar.xz/from/this/mirror" PHP_ASC_URL="https://www.php.net/get/php-7.4.10.tar.xz.asc/from/this/mirror"
+ENV PHP_SHA256="c2d90b00b14284588a787b100dee54c2400e7db995b457864d66f00ad64fb010" PHP_MD5=""
 
 RUN set -xe; \
 	\
@@ -228,6 +217,7 @@ RUN docker-php-ext-configure imap --with-imap-ssl --with-kerberos
 RUN docker-php-ext-install -j$(nproc) gd imap zip mysqli pdo_mysql iconv 
 RUN pecl install mcrypt && docker-php-ext-enable mcrypt
 RUN pecl install imagick && docker-php-ext-enable imagick
+RUN echo "expose_php=Off" >> /usr/local/etc/php/conf.d/noexposure.ini
 # libsodium needs 1.0.9 but had 1.0.0 only. So not using it at the moment
 #RUN pecl install libsodium-2.0.21 && docker-php-ext-enable libsodium
 
@@ -237,6 +227,7 @@ RUN a2enmod proxy proxy_http proxy_ajp rewrite deflate substitute headers \
     remoteip \
     && apache2ctl -v
 
+COPY etc/conf/ /etc/apache2/conf-enabled/
 COPY apache2-foreground /usr/local/bin/
 WORKDIR /var/www/html
 
