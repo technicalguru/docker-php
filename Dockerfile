@@ -227,6 +227,7 @@ RUN a2enmod proxy proxy_http proxy_ajp rewrite deflate substitute headers \
     remoteip \
     && apache2ctl -v
 
+RUN rm -f /etc/apache2/conf-enabled/security.conf /etc/apache2/conf-available/security.conf
 COPY etc/conf/ /etc/apache2/conf-enabled/
 COPY apache2-foreground /usr/local/bin/
 WORKDIR /var/www/html
