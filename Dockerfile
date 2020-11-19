@@ -4,7 +4,7 @@
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
 # 10.3 is buster (latest as of March 2020)
-FROM debian:10.3
+FROM debian:10.6
 
 #RUN printf "deb http://archive.debian.org/debian/ jessie main\ndeb-src http://archive.debian.org/debian/ jessie main\ndeb http://security.debian.org jessie/updates main\ndeb-src http://security.debian.org jessie/updates main" > /etc/apt/sources.list
 
@@ -120,9 +120,9 @@ ENV PHP_CPPFLAGS="$PHP_CFLAGS"
 ENV PHP_LDFLAGS="-Wl,-O1 -Wl,--hash-style=both -pie"
 
 ENV GPG_KEYS "42670A7FE4D0441C8E4632349E4FDC074A4EF02D 5A52880781F755608BF815FC910DEB46F53EA312"
-ENV PHP_VERSION 7.4.10
-ENV PHP_URL="https://www.php.net/get/php-7.4.10.tar.xz/from/this/mirror" PHP_ASC_URL="https://www.php.net/get/php-7.4.10.tar.xz.asc/from/this/mirror"
-ENV PHP_SHA256="c2d90b00b14284588a787b100dee54c2400e7db995b457864d66f00ad64fb010" PHP_MD5=""
+ENV PHP_VERSION 7.4.12
+ENV PHP_URL="https://www.php.net/get/php-7.4.12.tar.xz/from/this/mirror" PHP_ASC_URL="https://www.php.net/get/php-7.4.12.tar.xz.asc/from/this/mirror"
+ENV PHP_SHA256="e82d2bcead05255f6b7d2ff4e2561bc334204955820cabc2457b5239fde96b76" PHP_MD5=""
 
 RUN set -xe; \
 	\
@@ -215,11 +215,20 @@ RUN apt-get update && apt-get install -y libc-client-dev libkrb5-dev libonig-dev
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/
 RUN docker-php-ext-configure imap --with-imap-ssl --with-kerberos
 RUN docker-php-ext-install -j$(nproc) gd imap zip mysqli pdo_mysql iconv 
+RUN pecl channel-update pecl.php.net
 RUN pecl install mcrypt && docker-php-ext-enable mcrypt
 RUN pecl install imagick && docker-php-ext-enable imagick
 RUN echo "expose_php=Off" >> /usr/local/etc/php/conf.d/noexposure.ini
 # libsodium needs 1.0.9 but had 1.0.0 only. So not using it at the moment
 #RUN pecl install libsodium-2.0.21 && docker-php-ext-enable libsodium
+
+# Install PHP composer
+RUN cd /usr/local/bin \
+    && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
+    && php -r "if (hash_file('sha384', 'composer-setup.php') === '756890a4488ce9024fc62c56153228907f1545c228516cbf63f885e036d37e9a59d27d63f46af1d4d07ee0f76181c7d3') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
+    && php composer-setup.php \
+    && php -r "unlink('composer-setup.php');" \
+    && ln -s /usr/local/bin/composer.phar /usr/local/bin/composer
 
 # Configure Apache as needed
 RUN a2enmod proxy proxy_http proxy_ajp rewrite deflate substitute headers \
