@@ -233,7 +233,7 @@ RUN cd /usr/local/bin \
 # Configure Apache as needed
 RUN a2enmod proxy proxy_http proxy_ajp rewrite deflate substitute headers \
     proxy_balancer proxy_connect proxy_html xml2enc authnz_ldap authz_host \
-    remoteip \
+    remoteip expires \
     && apache2ctl -v
 
 RUN rm -f /etc/apache2/conf-enabled/security.conf /etc/apache2/conf-available/security.conf
