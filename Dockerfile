@@ -120,9 +120,11 @@ ENV PHP_CPPFLAGS="$PHP_CFLAGS"
 ENV PHP_LDFLAGS="-Wl,-O1 -Wl,--hash-style=both -pie"
 
 ENV GPG_KEYS "42670A7FE4D0441C8E4632349E4FDC074A4EF02D 5A52880781F755608BF815FC910DEB46F53EA312"
-ENV PHP_VERSION 7.4.12
-ENV PHP_URL="https://www.php.net/get/php-7.4.12.tar.xz/from/this/mirror" PHP_ASC_URL="https://www.php.net/get/php-7.4.12.tar.xz.asc/from/this/mirror"
-ENV PHP_SHA256="e82d2bcead05255f6b7d2ff4e2561bc334204955820cabc2457b5239fde96b76" PHP_MD5=""
+ENV PHP_VERSION 7.4.19
+ENV PHP_URL="https://www.php.net/distributions/php-7.4.19.tar.xz" PHP_ASC_URL="https://www.php.net/distributions/php-7.4.19.tar.xz.asc"
+ENV PHP_SHA256="6c17172c4a411ccb694d9752de899bb63c72a0a3ebe5089116bc13658a1467b2" PHP_MD5=""
+#ENV PHP_URL="https://www.php.net/get/php-7.4.12.tar.xz/from/this/mirror" PHP_ASC_URL="https://www.php.net/get/php-7.4.12.tar.xz.asc/from/this/mirror"
+#ENV PHP_SHA256="e82d2bcead05255f6b7d2ff4e2561bc334204955820cabc2457b5239fde96b76" PHP_MD5=""
 
 RUN set -xe; \
 	\
