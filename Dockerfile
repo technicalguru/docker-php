@@ -3,7 +3,6 @@
 #
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
-# 10.3 is buster (latest as of March 2020)
 FROM debian:10.6
 
 #RUN printf "deb http://archive.debian.org/debian/ jessie main\ndeb-src http://archive.debian.org/debian/ jessie main\ndeb http://security.debian.org jessie/updates main\ndeb-src http://security.debian.org jessie/updates main" > /etc/apt/sources.list
@@ -220,6 +219,7 @@ RUN docker-php-ext-install -j$(nproc) gd imap zip mysqli pdo_mysql iconv
 RUN pecl channel-update pecl.php.net
 RUN pecl install mcrypt && docker-php-ext-enable mcrypt
 RUN pecl install imagick && docker-php-ext-enable imagick
+RUN pecl install xdebug
 RUN echo "expose_php=Off" >> /usr/local/etc/php/conf.d/noexposure.ini
 # libsodium needs 1.0.9 but had 1.0.0 only. So not using it at the moment
 #RUN pecl install libsodium-2.0.21 && docker-php-ext-enable libsodium
