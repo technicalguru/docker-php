@@ -1,6 +1,6 @@
 # docker-php
 This is my private PHP base image in order to be up-to-date with latest Apache AND PHP versions. The image includes many PHP extensions enabled
-by default so most PHP applications can run without much tweaks. Check the [Dockerfile] to see the list of PHP extensions.
+by default so most PHP applications can run without much tweaks. Check the [Dockerfile](Dockerfile) to see the list of PHP extensions.
 
 # License
 All scripts are either taken from PHP original Docker image and adapted to work with the latest Apache or created on my own. However, the main
