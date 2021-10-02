@@ -7,6 +7,7 @@ The Dockerhub image name is `technicalguru/rs-php`
 
 # Releases / Tags
 * 7.4.19-apache-2.4.38.2
+* 7.4.24-apache-2.4.48.1
 
 # License
 All scripts are either taken from PHP original Docker image and adapted to work with the latest Apache or created on my own. However, the main
