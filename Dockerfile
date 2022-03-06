@@ -121,17 +121,11 @@ ENV PHP_CFLAGS="-fstack-protector-strong -fpic -fpie -O2"
 ENV PHP_CPPFLAGS="$PHP_CFLAGS"
 ENV PHP_LDFLAGS="-Wl,-O1 -Wl,--hash-style=both -pie"
 
-# PHP 7
-ENV GPG_KEYS "42670A7FE4D0441C8E4632349E4FDC074A4EF02D 5A52880781F755608BF815FC910DEB46F53EA312"
-ENV PHP_VERSION 7.4.28
-ENV PHP_URL="https://www.php.net/distributions/php-7.4.28.tar.xz" PHP_ASC_URL="https://www.php.net/distributions/php-7.4.28.tar.xz.asc"
-ENV PHP_SHA256="9cc3b6f6217b60582f78566b3814532c4b71d517876c25013ae51811e65d8fce" PHP_MD5=""
-
-# PHP 8
-#ENV GPG_KEYS "BFDDD28642824F8118EF77909B67A5C12229118F 1729F83938DA44E27BA0F4D3DBDB397470D12172"
-#ENV PHP_VERSION 8.0.11
-#ENV PHP_URL="https://www.php.net/distributions/php-8.0.11.tar.xz" PHP_ASC_URL="https://www.php.net/distributions/php-8.0.11.tar.xz.asc"
-#ENV PHP_SHA256="e3e5f764ae57b31eb65244a45512f0b22d7bef05f2052b23989c053901552e16" PHP_MD5=""
+# PHP 8 (for GPG KEY watch out "using key ... " notice in error message) / changes with minor versions
+ENV GPG_KEYS "F1F692238FBC1666E5A5CCD4199F9DFEF6FFBAFD"
+ENV PHP_VERSION 8.1.3
+ENV PHP_URL="https://www.php.net/distributions/php-8.1.3.tar.xz" PHP_ASC_URL="https://www.php.net/distributions/php-8.1.3.tar.xz.asc"
+ENV PHP_SHA256="5d65a11071b47669c17452fb336c290b67c101efb745c1dbe7525b5caf546ec6" PHP_MD5=""
 
 RUN set -xe; \
 	\
@@ -225,7 +219,7 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 RUN docker-php-ext-configure imap --with-imap-ssl --with-kerberos
 RUN docker-php-ext-install -j$(nproc) gd imap zip mysqli pdo_mysql iconv 
 RUN pecl channel-update pecl.php.net
-RUN pecl install mcrypt && docker-php-ext-enable mcrypt
+RUN pecl download mcrypt-1.0.4.tgz && pecl install mcrypt-1.0.4.tgz && docker-php-ext-enable mcrypt
 RUN pecl install imagick && docker-php-ext-enable imagick
 RUN pecl install xdebug
 RUN echo "expose_php=Off" >> /usr/local/etc/php/conf.d/noexposure.ini
