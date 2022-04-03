@@ -7,10 +7,53 @@ The Dockerhub image name is `technicalguru/rs-php`
 
 # Releases / Tags
 * 8.0.11-apache-2.4.48.0-beta1 (Experimental)
-* 7.4.28-apache-2.4.53.0
+* 7.4.28-apache-2.4.53.1
 * 7.4.28-apache-2.4.52.0
 * 7.4.24-apache-2.4.48.1
 * 7.4.19-apache-2.4.38.2
+
+# Enabled PHP Modules
+Core
+ctype
+curl
+date
+dom
+exif
+fileinfo
+filter
+ftp
+gd
+hash
+iconv
+imagick
+imap
+intl
+json
+libxml
+mbstring
+mcrypt
+mysqli
+mysqlnd
+openssl
+pcre
+PDO
+pdo_mysql
+pdo_sqlite
+Phar
+posix
+readline
+Reflection
+session
+SimpleXML
+SPL
+sqlite3
+standard
+tokenizer
+xml
+xmlreader
+xmlwriter
+zip
+zlib
 
 # License
 All scripts are either taken from PHP original Docker image and adapted to work with the latest Apache or created on my own. However, the main

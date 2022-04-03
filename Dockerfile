@@ -176,6 +176,7 @@ RUN set -xe \
 		libsqlite3-dev \
 		libssl-dev \
 		libzip-dev \
+		libicu-dev \
 		libkrb5-dev \
 		libonig-dev \
 		libxml2-dev \
@@ -200,6 +201,7 @@ RUN set -xe \
 # --enable-mysqlnd is included here because it's harder to compile after the fact than extensions are (since it's a plugin for several extensions, not an extension in itself)
 		--enable-mysqlnd \
 		--enable-exif \
+        --enable-intl \
 		\
 		--with-curl \
 		--with-libedit \
@@ -226,6 +228,7 @@ RUN docker-php-ext-configure imap --with-imap-ssl --with-kerberos
 RUN docker-php-ext-install -j$(nproc) gd imap zip mysqli pdo_mysql iconv 
 RUN pecl channel-update pecl.php.net
 RUN pecl install mcrypt && docker-php-ext-enable mcrypt
+#RUN pecl install intl && docker-php-ext-enable intl
 RUN pecl install imagick && docker-php-ext-enable imagick
 RUN pecl install xdebug
 RUN echo "expose_php=Off" >> /usr/local/etc/php/conf.d/noexposure.ini
@@ -252,6 +255,7 @@ COPY apache2-foreground /usr/local/bin/
 
 RUN apache2ctl -v
 RUN php -v
+RUN php -m
 WORKDIR /var/www/html
 
 EXPOSE 80
