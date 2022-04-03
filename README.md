@@ -7,6 +7,8 @@ The Dockerhub image name is `technicalguru/rs-php`
 
 # Releases / Tags
 * 8.0.11-apache-2.4.48.0-beta1 (Experimental)
+* 7.4.28-apache-2.4.53.0
+* 7.4.28-apache-2.4.52.0
 * 7.4.24-apache-2.4.48.1
 * 7.4.19-apache-2.4.38.2
 
