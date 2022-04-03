@@ -3,7 +3,7 @@
 #
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
-FROM debian:11.0
+FROM debian:11.3
 
 # To enable latest Apache image on buster:
 # RUN echo deb http://deb.debian.org/debian buster-backports main | tee /etc/apt/sources.list.d/buster-backports.list
@@ -123,9 +123,9 @@ ENV PHP_LDFLAGS="-Wl,-O1 -Wl,--hash-style=both -pie"
 
 # PHP 7
 ENV GPG_KEYS "42670A7FE4D0441C8E4632349E4FDC074A4EF02D 5A52880781F755608BF815FC910DEB46F53EA312"
-ENV PHP_VERSION 7.4.24
-ENV PHP_URL="https://www.php.net/distributions/php-7.4.24.tar.xz" PHP_ASC_URL="https://www.php.net/distributions/php-7.4.24.tar.xz.asc"
-ENV PHP_SHA256="ff7658ee2f6d8af05b48c21146af5f502e121def4e76e862df5ec9fa06e98734" PHP_MD5=""
+ENV PHP_VERSION 7.4.28
+ENV PHP_URL="https://www.php.net/distributions/php-7.4.28.tar.xz" PHP_ASC_URL="https://www.php.net/distributions/php-7.4.28.tar.xz.asc"
+ENV PHP_SHA256="9cc3b6f6217b60582f78566b3814532c4b71d517876c25013ae51811e65d8fce" PHP_MD5=""
 
 # PHP 8
 #ENV GPG_KEYS "BFDDD28642824F8118EF77909B67A5C12229118F 1729F83938DA44E27BA0F4D3DBDB397470D12172"
@@ -176,6 +176,7 @@ RUN set -xe \
 		libsqlite3-dev \
 		libssl-dev \
 		libzip-dev \
+		libicu-dev \
 		libkrb5-dev \
 		libonig-dev \
 		libxml2-dev \
@@ -200,6 +201,7 @@ RUN set -xe \
 # --enable-mysqlnd is included here because it's harder to compile after the fact than extensions are (since it's a plugin for several extensions, not an extension in itself)
 		--enable-mysqlnd \
 		--enable-exif \
+        --enable-intl \
 		\
 		--with-curl \
 		--with-libedit \
@@ -226,6 +228,7 @@ RUN docker-php-ext-configure imap --with-imap-ssl --with-kerberos
 RUN docker-php-ext-install -j$(nproc) gd imap zip mysqli pdo_mysql iconv 
 RUN pecl channel-update pecl.php.net
 RUN pecl install mcrypt && docker-php-ext-enable mcrypt
+#RUN pecl install intl && docker-php-ext-enable intl
 RUN pecl install imagick && docker-php-ext-enable imagick
 RUN pecl install xdebug
 RUN echo "expose_php=Off" >> /usr/local/etc/php/conf.d/noexposure.ini
@@ -252,6 +255,7 @@ COPY apache2-foreground /usr/local/bin/
 
 RUN apache2ctl -v
 RUN php -v
+RUN php -m
 WORKDIR /var/www/html
 
 EXPOSE 80
