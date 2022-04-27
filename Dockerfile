@@ -121,17 +121,11 @@ ENV PHP_CFLAGS="-fstack-protector-strong -fpic -fpie -O2"
 ENV PHP_CPPFLAGS="$PHP_CFLAGS"
 ENV PHP_LDFLAGS="-Wl,-O1 -Wl,--hash-style=both -pie"
 
-# PHP 7
-ENV GPG_KEYS "42670A7FE4D0441C8E4632349E4FDC074A4EF02D 5A52880781F755608BF815FC910DEB46F53EA312"
-ENV PHP_VERSION 7.4.28
-ENV PHP_URL="https://www.php.net/distributions/php-7.4.28.tar.xz" PHP_ASC_URL="https://www.php.net/distributions/php-7.4.28.tar.xz.asc"
-ENV PHP_SHA256="9cc3b6f6217b60582f78566b3814532c4b71d517876c25013ae51811e65d8fce" PHP_MD5=""
-
-# PHP 8
-#ENV GPG_KEYS "BFDDD28642824F8118EF77909B67A5C12229118F 1729F83938DA44E27BA0F4D3DBDB397470D12172"
-#ENV PHP_VERSION 8.0.11
-#ENV PHP_URL="https://www.php.net/distributions/php-8.0.11.tar.xz" PHP_ASC_URL="https://www.php.net/distributions/php-8.0.11.tar.xz.asc"
-#ENV PHP_SHA256="e3e5f764ae57b31eb65244a45512f0b22d7bef05f2052b23989c053901552e16" PHP_MD5=""
+# PHP 8 (for GPG KEY watch out "using key ... " notice in error message) / changes with minor versions
+ENV GPG_KEYS "F1F692238FBC1666E5A5CCD4199F9DFEF6FFBAFD"
+ENV PHP_VERSION 8.1.5
+ENV PHP_URL="https://www.php.net/distributions/php-8.1.5.tar.xz" PHP_ASC_URL="https://www.php.net/distributions/php-8.1.5.tar.xz.asc"
+ENV PHP_SHA256="7647734b4dcecd56b7e4bd0bc55e54322fa3518299abcdc68eb557a7464a2e8a" PHP_MD5=""
 
 RUN set -xe; \
 	\
@@ -226,9 +220,19 @@ RUN apt-get update && apt-get install -y libc-client-dev libkrb5-dev libonig-dev
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 RUN docker-php-ext-configure imap --with-imap-ssl --with-kerberos
 RUN docker-php-ext-install -j$(nproc) gd imap zip mysqli pdo_mysql iconv 
-RUN pecl channel-update pecl.php.net
-RUN pecl install mcrypt && docker-php-ext-enable mcrypt
-#RUN pecl install intl && docker-php-ext-enable intl
+
+# Fix mcrypt for 8.1 PHP before 1.0.5 comes out
+# RUN pecl channel-update pecl.php.net
+# RUN pecl download mcrypt-1.0.4.tgz && pecl install mcrypt-1.0.4.tgz && docker-php-ext-enable mcrypt
+COPY mcrypt-1.0.4.tgz /usr/src/php/ext/
+RUN    cd /usr/src/php/ext \
+    && tar xzf mcrypt-1.0.4.tgz \
+    && mv mcrypt-1.0.4 mcrypt \
+    && docker-php-ext-configure mcrypt \
+    && docker-php-ext-install -j$(nproc) mcrypt \
+    && docker-php-ext-enable mcrypt
+# End of fix
+RUN pecl install intl && docker-php-ext-enable intl
 RUN pecl install imagick && docker-php-ext-enable imagick
 RUN pecl install xdebug
 RUN echo "expose_php=Off" >> /usr/local/etc/php/conf.d/noexposure.ini
