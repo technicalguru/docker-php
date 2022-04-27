@@ -170,6 +170,7 @@ RUN set -xe \
 		libsqlite3-dev \
 		libssl-dev \
 		libzip-dev \
+		libicu-dev \
 		libkrb5-dev \
 		libonig-dev \
 		libxml2-dev \
@@ -194,6 +195,7 @@ RUN set -xe \
 # --enable-mysqlnd is included here because it's harder to compile after the fact than extensions are (since it's a plugin for several extensions, not an extension in itself)
 		--enable-mysqlnd \
 		--enable-exif \
+        --enable-intl \
 		\
 		--with-curl \
 		--with-libedit \
@@ -218,6 +220,7 @@ RUN apt-get update && apt-get install -y libc-client-dev libkrb5-dev libonig-dev
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 RUN docker-php-ext-configure imap --with-imap-ssl --with-kerberos
 RUN docker-php-ext-install -j$(nproc) gd imap zip mysqli pdo_mysql iconv 
+
 # Fix mcrypt for 8.1 PHP before 1.0.5 comes out
 # RUN pecl channel-update pecl.php.net
 # RUN pecl download mcrypt-1.0.4.tgz && pecl install mcrypt-1.0.4.tgz && docker-php-ext-enable mcrypt
@@ -229,6 +232,7 @@ RUN    cd /usr/src/php/ext \
     && docker-php-ext-install -j$(nproc) mcrypt \
     && docker-php-ext-enable mcrypt
 # End of fix
+RUN pecl install intl && docker-php-ext-enable intl
 RUN pecl install imagick && docker-php-ext-enable imagick
 RUN pecl install xdebug
 RUN echo "expose_php=Off" >> /usr/local/etc/php/conf.d/noexposure.ini

@@ -27,6 +27,7 @@ hash
 iconv
 imagick
 imap
+intl
 json
 libxml
 mbstring
