@@ -3,7 +3,7 @@
 #
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
-FROM debian:11.0
+FROM debian:11.3
 
 # To enable latest Apache image on buster:
 # RUN echo deb http://deb.debian.org/debian buster-backports main | tee /etc/apt/sources.list.d/buster-backports.list
@@ -123,9 +123,9 @@ ENV PHP_LDFLAGS="-Wl,-O1 -Wl,--hash-style=both -pie"
 
 # PHP 8 (for GPG KEY watch out "using key ... " notice in error message) / changes with minor versions
 ENV GPG_KEYS "F1F692238FBC1666E5A5CCD4199F9DFEF6FFBAFD"
-ENV PHP_VERSION 8.1.3
-ENV PHP_URL="https://www.php.net/distributions/php-8.1.3.tar.xz" PHP_ASC_URL="https://www.php.net/distributions/php-8.1.3.tar.xz.asc"
-ENV PHP_SHA256="5d65a11071b47669c17452fb336c290b67c101efb745c1dbe7525b5caf546ec6" PHP_MD5=""
+ENV PHP_VERSION 8.1.5
+ENV PHP_URL="https://www.php.net/distributions/php-8.1.5.tar.xz" PHP_ASC_URL="https://www.php.net/distributions/php-8.1.5.tar.xz.asc"
+ENV PHP_SHA256="7647734b4dcecd56b7e4bd0bc55e54322fa3518299abcdc68eb557a7464a2e8a" PHP_MD5=""
 
 RUN set -xe; \
 	\
@@ -218,8 +218,17 @@ RUN apt-get update && apt-get install -y libc-client-dev libkrb5-dev libonig-dev
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 RUN docker-php-ext-configure imap --with-imap-ssl --with-kerberos
 RUN docker-php-ext-install -j$(nproc) gd imap zip mysqli pdo_mysql iconv 
-RUN pecl channel-update pecl.php.net
-RUN pecl download mcrypt-1.0.4.tgz && pecl install mcrypt-1.0.4.tgz && docker-php-ext-enable mcrypt
+# Fix mcrypt for 8.1 PHP before 1.0.5 comes out
+# RUN pecl channel-update pecl.php.net
+# RUN pecl download mcrypt-1.0.4.tgz && pecl install mcrypt-1.0.4.tgz && docker-php-ext-enable mcrypt
+COPY mcrypt-1.0.4.tgz /usr/src/php/ext/
+RUN    cd /usr/src/php/ext \
+    && tar xzf mcrypt-1.0.4.tgz \
+    && mv mcrypt-1.0.4 mcrypt \
+    && docker-php-ext-configure mcrypt \
+    && docker-php-ext-install -j$(nproc) mcrypt \
+    && docker-php-ext-enable mcrypt
+# End of fix
 RUN pecl install imagick && docker-php-ext-enable imagick
 RUN pecl install xdebug
 RUN echo "expose_php=Off" >> /usr/local/etc/php/conf.d/noexposure.ini
@@ -246,6 +255,7 @@ COPY apache2-foreground /usr/local/bin/
 
 RUN apache2ctl -v
 RUN php -v
+RUN php -m
 WORKDIR /var/www/html
 
 EXPOSE 80
