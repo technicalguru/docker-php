@@ -180,6 +180,7 @@ RUN set -xe \
 	&& export CFLAGS="$PHP_CFLAGS" \
 		CPPFLAGS="$PHP_CPPFLAGS" \
 		LDFLAGS="$PHP_LDFLAGS" \
+        LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/icu/lib \
 	&& docker-php-source extract \
 	&& cd /usr/src/php \
 	&& ./configure \
@@ -232,7 +233,7 @@ RUN    cd /usr/src/php/ext \
     && docker-php-ext-install -j$(nproc) mcrypt \
     && docker-php-ext-enable mcrypt
 # End of fix
-RUN pecl install intl && docker-php-ext-enable intl
+#RUN pecl install intl && docker-php-ext-enable intl
 RUN pecl install imagick && docker-php-ext-enable imagick
 RUN pecl install xdebug
 RUN echo "expose_php=Off" >> /usr/local/etc/php/conf.d/noexposure.ini
