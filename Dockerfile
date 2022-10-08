@@ -3,7 +3,7 @@
 #
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
-FROM debian:11.3
+FROM debian:11
 
 # To enable latest Apache image on buster:
 # RUN echo deb http://deb.debian.org/debian buster-backports main | tee /etc/apt/sources.list.d/buster-backports.list
@@ -123,15 +123,9 @@ ENV PHP_LDFLAGS="-Wl,-O1 -Wl,--hash-style=both -pie"
 
 # PHP 7
 ENV GPG_KEYS "42670A7FE4D0441C8E4632349E4FDC074A4EF02D 5A52880781F755608BF815FC910DEB46F53EA312"
-ENV PHP_VERSION 7.4.28
-ENV PHP_URL="https://www.php.net/distributions/php-7.4.28.tar.xz" PHP_ASC_URL="https://www.php.net/distributions/php-7.4.28.tar.xz.asc"
-ENV PHP_SHA256="9cc3b6f6217b60582f78566b3814532c4b71d517876c25013ae51811e65d8fce" PHP_MD5=""
-
-# PHP 8
-#ENV GPG_KEYS "BFDDD28642824F8118EF77909B67A5C12229118F 1729F83938DA44E27BA0F4D3DBDB397470D12172"
-#ENV PHP_VERSION 8.0.11
-#ENV PHP_URL="https://www.php.net/distributions/php-8.0.11.tar.xz" PHP_ASC_URL="https://www.php.net/distributions/php-8.0.11.tar.xz.asc"
-#ENV PHP_SHA256="e3e5f764ae57b31eb65244a45512f0b22d7bef05f2052b23989c053901552e16" PHP_MD5=""
+ENV PHP_VERSION 7.4.32
+ENV PHP_URL="https://www.php.net/distributions/php-7.4.32.tar.xz" PHP_ASC_URL="https://www.php.net/distributions/php-7.4.32.tar.xz.asc"
+ENV PHP_SHA256="323332c991e8ef30b1d219cb10f5e30f11b5f319ce4c6642a5470d75ade7864a" PHP_MD5=""
 
 RUN set -xe; \
 	\
@@ -238,7 +232,7 @@ RUN echo "expose_php=Off" >> /usr/local/etc/php/conf.d/noexposure.ini
 # Install PHP composer
 RUN cd /usr/local/bin \
     && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
-    && php -r "if (hash_file('sha384', 'composer-setup.php') === '906a84df04cea2aa72f40b5f787e49f22d4c2f19492ac310e8cba5b96ac8b64115ac402c8cd292b8a03482574915d1a8') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
+    && php -r "if (hash_file('sha384', 'composer-setup.php') === '55ce33d7678c5a611085589f1f3ddf8b3c52d662cd01d4ba75c0ee0459970c2200a51f492d557530c71c15d8dba01eae') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
     && php composer-setup.php \
     && php -r "unlink('composer-setup.php');" \
     && ln -s /usr/local/bin/composer.phar /usr/local/bin/composer
