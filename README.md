@@ -3,7 +3,7 @@ This is my private PHP base image in order to be up-to-date with latest Apache A
 by default so most PHP applications can run without much tweaks. Check the [Dockerfile](Dockerfile) to see the list of PHP extensions.
 
 # Docker Name
-The Dockerhub image name is `technicalguru/rs-php`
+The Dockerhub image name is `technicalguru/php`
 
 # Releases / Tags
 * 8.1.11-apache-2.4.54.0
