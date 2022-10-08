@@ -3,7 +3,7 @@
 #
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
-FROM debian:11.3
+FROM debian:11
 
 # To enable latest Apache image on buster:
 # RUN echo deb http://deb.debian.org/debian buster-backports main | tee /etc/apt/sources.list.d/buster-backports.list
@@ -123,9 +123,9 @@ ENV PHP_LDFLAGS="-Wl,-O1 -Wl,--hash-style=both -pie"
 
 # PHP 8 (for GPG KEY watch out "using key ... " notice in error message) / changes with minor versions
 ENV GPG_KEYS "F1F692238FBC1666E5A5CCD4199F9DFEF6FFBAFD"
-ENV PHP_VERSION 8.1.5
-ENV PHP_URL="https://www.php.net/distributions/php-8.1.5.tar.xz" PHP_ASC_URL="https://www.php.net/distributions/php-8.1.5.tar.xz.asc"
-ENV PHP_SHA256="7647734b4dcecd56b7e4bd0bc55e54322fa3518299abcdc68eb557a7464a2e8a" PHP_MD5=""
+ENV PHP_VERSION 8.1.11
+ENV PHP_URL="https://www.php.net/distributions/php-8.1.11.tar.xz" PHP_ASC_URL="https://www.php.net/distributions/php-8.1.11.tar.xz.asc"
+ENV PHP_SHA256="3005198d7303f87ab31bc30695de76e8ad62783f806b6ab9744da59fe41cc5bd" PHP_MD5=""
 
 RUN set -xe; \
 	\
@@ -223,15 +223,14 @@ RUN docker-php-ext-configure imap --with-imap-ssl --with-kerberos
 RUN docker-php-ext-install -j$(nproc) gd imap zip mysqli pdo_mysql iconv 
 
 # Fix mcrypt for 8.1 PHP before 1.0.5 comes out
-# RUN pecl channel-update pecl.php.net
-# RUN pecl download mcrypt-1.0.4.tgz && pecl install mcrypt-1.0.4.tgz && docker-php-ext-enable mcrypt
-COPY mcrypt-1.0.4.tgz /usr/src/php/ext/
-RUN    cd /usr/src/php/ext \
-    && tar xzf mcrypt-1.0.4.tgz \
-    && mv mcrypt-1.0.4 mcrypt \
-    && docker-php-ext-configure mcrypt \
-    && docker-php-ext-install -j$(nproc) mcrypt \
-    && docker-php-ext-enable mcrypt
+RUN pecl channel-update pecl.php.net && pecl install mcrypt && docker-php-ext-enable mcrypt
+#COPY mcrypt-1.0.4.tgz /usr/src/php/ext/
+#RUN    cd /usr/src/php/ext \
+#    && tar xzf mcrypt-1.0.4.tgz \
+#    && mv mcrypt-1.0.4 mcrypt \
+#    && docker-php-ext-configure mcrypt \
+#    && docker-php-ext-install -j$(nproc) mcrypt \
+#    && docker-php-ext-enable mcrypt
 # End of fix
 #RUN pecl install intl && docker-php-ext-enable intl
 RUN pecl install imagick && docker-php-ext-enable imagick
@@ -241,10 +240,10 @@ RUN pecl install xdebug
 
 # Install PHP composer
 RUN cd /usr/local/bin \
-    && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
-    && php -r "if (hash_file('sha384', 'composer-setup.php') === '906a84df04cea2aa72f40b5f787e49f22d4c2f19492ac310e8cba5b96ac8b64115ac402c8cd292b8a03482574915d1a8') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
-    && php composer-setup.php \
-    && php -r "unlink('composer-setup.php');" \
+	&& php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
+	&& php -r "if (hash_file('sha384', 'composer-setup.php') === '55ce33d7678c5a611085589f1f3ddf8b3c52d662cd01d4ba75c0ee0459970c2200a51f492d557530c71c15d8dba01eae') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
+	&& php composer-setup.php \
+	&& php -r "unlink('composer-setup.php');" \
     && ln -s /usr/local/bin/composer.phar /usr/local/bin/composer
 
 # Configure Apache as needed
