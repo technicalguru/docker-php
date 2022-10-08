@@ -6,11 +6,8 @@ by default so most PHP applications can run without much tweaks. Check the [Dock
 The Dockerhub image name is `technicalguru/rs-php`
 
 # Releases / Tags
-* 8.1.5-apache-2.4.53.2
-* 7.4.28-apache-2.4.53.1
-* 7.4.28-apache-2.4.52.0
-* 7.4.24-apache-2.4.48.1
-* 7.4.19-apache-2.4.38.2
+* 8.1.11-apache-2.4.54.0
+* 7.4.32-apache-2.4.54.0
 
 # Enabled PHP Modules
 Core
