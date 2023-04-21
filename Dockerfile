@@ -121,11 +121,11 @@ ENV PHP_CFLAGS="-fstack-protector-strong -fpic -fpie -O2"
 ENV PHP_CPPFLAGS="$PHP_CFLAGS"
 ENV PHP_LDFLAGS="-Wl,-O1 -Wl,--hash-style=both -pie"
 
-# PHP 8 (for GPG KEY watch out "using key ... " notice in error message) / changes with minor versions
-ENV GPG_KEYS "F1F692238FBC1666E5A5CCD4199F9DFEF6FFBAFD"
-ENV PHP_VERSION 8.1.11
-ENV PHP_URL="https://www.php.net/distributions/php-8.1.11.tar.xz" PHP_ASC_URL="https://www.php.net/distributions/php-8.1.11.tar.xz.asc"
-ENV PHP_SHA256="3005198d7303f87ab31bc30695de76e8ad62783f806b6ab9744da59fe41cc5bd" PHP_MD5=""
+# PHP 8.2 (for GPG KEY watch out "using key ... " notice in error message) / changes with minor versions
+ENV GPG_KEYS "1198C0117593497A5EC5C199286AF1F9897469DC 39B641343D8C104B2B146DC3F9C39DC0B9698544 E60913E4DF209907D8E30D96659A97C9CF2A795A"
+ENV PHP_VERSION 8.2.5
+ENV PHP_URL="https://www.php.net/distributions/php-8.2.5.tar.xz" PHP_ASC_URL="https://www.php.net/distributions/php-8.2.5.tar.xz.asc"
+ENV PHP_SHA256="800738c359b7f1e67e40c22713d2d90276bc85ba1c21b43d99edd43c254c5f76" PHP_MD5=""
 
 RUN set -xe; \
 	\
