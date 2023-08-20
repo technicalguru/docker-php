@@ -123,9 +123,9 @@ ENV PHP_LDFLAGS="-Wl,-O1 -Wl,--hash-style=both -pie"
 
 # PHP 8.2 (for GPG KEY watch out "using key ... " notice in error message) / changes with minor versions
 ENV GPG_KEYS "1198C0117593497A5EC5C199286AF1F9897469DC 39B641343D8C104B2B146DC3F9C39DC0B9698544 E60913E4DF209907D8E30D96659A97C9CF2A795A"
-ENV PHP_VERSION 8.2.5
-ENV PHP_URL="https://www.php.net/distributions/php-8.2.5.tar.xz" PHP_ASC_URL="https://www.php.net/distributions/php-8.2.5.tar.xz.asc"
-ENV PHP_SHA256="800738c359b7f1e67e40c22713d2d90276bc85ba1c21b43d99edd43c254c5f76" PHP_MD5=""
+ENV PHP_VERSION 8.2.9
+ENV PHP_URL="https://www.php.net/distributions/php-8.2.9.tar.xz" PHP_ASC_URL="https://www.php.net/distributions/php-8.2.9.tar.xz.asc"
+ENV PHP_SHA256="1e6cb77f997613864ab3127fbfc6a8c7fdaa89a95e8ed6167617b913b4de4765" PHP_MD5=""
 
 RUN set -xe; \
 	\
@@ -240,10 +240,10 @@ RUN pecl install xdebug
 
 # Install PHP composer
 RUN cd /usr/local/bin \
-	&& php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
-	&& php -r "if (hash_file('sha384', 'composer-setup.php') === '55ce33d7678c5a611085589f1f3ddf8b3c52d662cd01d4ba75c0ee0459970c2200a51f492d557530c71c15d8dba01eae') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
-	&& php composer-setup.php \
-	&& php -r "unlink('composer-setup.php');" \
+    && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
+    && php -r "if (hash_file('sha384', 'composer-setup.php') === 'e21205b207c3ff031906575712edab6f13eb0b361f2085f1f1237b7126d785e826a450292b6cfd1d64d92e6563bbde02') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
+    && php composer-setup.php \
+    && php -r "unlink('composer-setup.php');" \
     && ln -s /usr/local/bin/composer.phar /usr/local/bin/composer
 
 # Configure Apache as needed
