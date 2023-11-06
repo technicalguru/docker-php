@@ -3,7 +3,7 @@
 #
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
-FROM debian:11
+FROM debian:12
 
 # To enable latest Apache image on buster:
 # RUN echo deb http://deb.debian.org/debian buster-backports main | tee /etc/apt/sources.list.d/buster-backports.list
