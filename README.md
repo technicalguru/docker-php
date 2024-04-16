@@ -7,7 +7,7 @@ The Dockerhub image name is `technicalguru/php`
 
 # Current Releases / Tags
 * 8.2.18-apache-2.4.57.0
-* 8.1.22-apache-2.4.56.0
+* 8.1.28-apache-2.4.57.0
 
 # Unsupported PHP versions
 * 7.4.32-apache-2.4.54.0
