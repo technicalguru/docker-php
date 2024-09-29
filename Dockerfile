@@ -123,9 +123,9 @@ ENV PHP_LDFLAGS="-Wl,-O1 -Wl,--hash-style=both -pie"
 
 # PHP 8.1 (for GPG KEY watch out "using key ... " notice in error message) / changes with minor versions
 ENV GPG_KEYS "39B641343D8C104B2B146DC3F9C39DC0B9698544 528995BFEDFBA7191D46839EF9BA0ADA31CBD89E F1F692238FBC1666E5A5CCD4199F9DFEF6FFBAFD"
-ENV PHP_VERSION 8.1.28
+ENV PHP_VERSION 8.1.30
 ENV PHP_URL="https://www.php.net/distributions/php-${PHP_VERSION}.tar.xz" PHP_ASC_URL="https://www.php.net/distributions/php-${PHP_VERSION}.tar.xz.asc"
-ENV PHP_SHA256="95d0b2e9466108fd750dab5c30a09e5c67f5ad2cb3b1ffb3625a038a755ad080" PHP_MD5=""
+ENV PHP_SHA256="f24a6007f0b25a53cb7fbaee69c85017e0345b62089c2425a0afb7e177192ed1" PHP_MD5=""
 
 RUN set -xe; \
 	\
