@@ -23,7 +23,7 @@ ENV PHPIZE_DEPS \
         libmagickwand-dev \
         zlib1g-dev \
         libzip-dev \
-#        libsodium-dev \
+        libsodium-dev \
 		make \
 		pkg-config \
         gpg-agent \
@@ -239,8 +239,6 @@ RUN pecl install imagick && docker-php-ext-enable imagick
 RUN pecl install imap &&  docker-php-ext-enable imap
 # XDEBUG
 RUN pecl install xdebug
-# libsodium needs 1.0.9 but had 1.0.0 only. So not using it at the moment
-#RUN pecl install libsodium-2.0.21 && docker-php-ext-enable libsodium
 
 # Install PHP composer
 RUN cd /usr/local/bin \
