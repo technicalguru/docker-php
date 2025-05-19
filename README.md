@@ -48,6 +48,7 @@ The Dockerhub image name is `technicalguru/php`
 * Reflection
 * session
 * SimpleXML
+* sodium
 * SPL
 * sqlite3
 * standard
