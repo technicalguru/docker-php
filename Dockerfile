@@ -18,6 +18,7 @@ ENV PHPIZE_DEPS \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
         libmcrypt-dev \
+        libsodium-dev \
         libmagickcore-dev \
         libmagickwand-dev \
         zlib1g-dev \
@@ -121,11 +122,11 @@ ENV PHP_CFLAGS="-fstack-protector-strong -fpic -fpie -O2"
 ENV PHP_CPPFLAGS="$PHP_CFLAGS"
 ENV PHP_LDFLAGS="-Wl,-O1 -Wl,--hash-style=both -pie"
 
-# PHP 8.3 (for GPG KEY watch out "using key ... " notice in error message) / changes with minor versions
-ENV GPG_KEYS "1198C0117593497A5EC5C199286AF1F9897469DC AFD8691FDAEDF03BDF6E460563F15A9B715376CA C28D937575603EB4ABB725861C0779DC5C0A9DE4"
-ENV PHP_VERSION 8.3.21
+# PHP 8.4 (for GPG KEY watch out "using key ... " notice in error message) / changes with minor versions
+ENV GPG_KEYS "AFD8691FDAEDF03BDF6E460563F15A9B715376CA 9D7F99A0CB8F05C8A6958D6256A97AF7600A39A6 0616E93D95AF471243E26761770426E17EBBB3DD"
+ENV PHP_VERSION 8.4.7
 ENV PHP_URL="https://www.php.net/distributions/php-${PHP_VERSION}.tar.xz" PHP_ASC_URL="https://www.php.net/distributions/php-${PHP_VERSION}.tar.xz.asc"
-ENV PHP_SHA256="4dfb329f209a552c3716394fc123bb62e80a468b55ce27fc8cb0fd5f30b9dcd6" PHP_MD5=""
+ENV PHP_SHA256="e29f4c23be2816ed005aa3f06bbb8eae0f22cc133863862e893515fc841e65e3" PHP_MD5=""
 
 RUN set -xe; \
 	\
@@ -197,7 +198,7 @@ RUN set -xe \
 		--enable-mysqlnd \
 		--enable-exif \
         --enable-intl \
-		\
+        --with-sodium \
 		--with-curl \
 		--with-libedit \
 		--with-openssl \
@@ -219,11 +220,11 @@ ENTRYPOINT ["docker-php-entrypoint"]
 ##Additional:
 RUN apt-get update && apt-get install -y libc-client-dev libkrb5-dev libonig-dev libzip-dev libmagickwand-dev libmagickcore-dev imagemagick --no-install-recommends && rm -rf /var/lib/apt/lists/*
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg
-RUN docker-php-ext-configure imap --with-imap-ssl --with-kerberos
-RUN docker-php-ext-install -j$(nproc) gd imap zip mysqli pdo_mysql iconv 
+RUN docker-php-ext-install -j$(nproc) gd zip mysqli pdo_mysql iconv 
 
-# Fix mcrypt for 8.1 PHP before 1.0.5 comes out
-RUN pecl channel-update pecl.php.net && pecl install mcrypt && docker-php-ext-enable mcrypt
+RUN pecl channel-update pecl.php.net 
+# NO MCRYPT with 8.4.x anymore
+#RUN pecl install mcrypt && docker-php-ext-enable mcrypt
 #COPY mcrypt-1.0.4.tgz /usr/src/php/ext/
 #RUN    cd /usr/src/php/ext \
 #    && tar xzf mcrypt-1.0.4.tgz \
@@ -234,6 +235,9 @@ RUN pecl channel-update pecl.php.net && pecl install mcrypt && docker-php-ext-en
 # End of fix
 #RUN pecl install intl && docker-php-ext-enable intl
 RUN pecl install imagick && docker-php-ext-enable imagick
+# IMAP extension in 8.4 from PECL
+RUN pecl install imap &&  docker-php-ext-enable imap
+# XDEBUG
 RUN pecl install xdebug
 # libsodium needs 1.0.9 but had 1.0.0 only. So not using it at the moment
 #RUN pecl install libsodium-2.0.21 && docker-php-ext-enable libsodium

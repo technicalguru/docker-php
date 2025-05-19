@@ -2,6 +2,10 @@
 This is my private PHP base image in order to be up-to-date with latest Apache AND PHP versions. The image includes many PHP extensions enabled
 by default so most PHP applications can run without much tweaks. Check the [Dockerfile](Dockerfile) to see the list of PHP extensions.
 
+# Breaking Change with PHP 8.4.x
+The extension mcrypt is not supported anymore with PHP 8.4. New PHP code should be written to use libsodium rather than mcrypt. 
+The libsodium extension is installed by default on PHP 7.2+
+
 # Docker Name
 The Dockerhub image name is `technicalguru/php`
 
@@ -33,7 +37,6 @@ The Dockerhub image name is `technicalguru/php`
 * json
 * libxml
 * mbstring
-* mcrypt
 * mysqli
 * mysqlnd
 * openssl
@@ -48,6 +51,7 @@ The Dockerhub image name is `technicalguru/php`
 * Reflection
 * session
 * SimpleXML
+* sodium
 * SPL
 * sqlite3
 * standard
