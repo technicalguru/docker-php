@@ -22,7 +22,7 @@ ENV PHPIZE_DEPS \
         libmagickwand-dev \
         zlib1g-dev \
         libzip-dev \
-#        libsodium-dev \
+        libsodium-dev \
 		make \
 		pkg-config \
         gpg-agent \
@@ -198,6 +198,7 @@ RUN set -xe \
 		--enable-exif \
         --enable-intl \
 		\
+		--with-sodium \
 		--with-curl \
 		--with-libedit \
 		--with-openssl \
