@@ -6,8 +6,12 @@ by default so most PHP applications can run without much tweaks. Check the [Dock
 The Dockerhub image name is `technicalguru/php`
 
 # Current Releases / Tags
-* 8.4.7-apache-2.4.62.0
-* 8.3.21-apache-2.4.62.0
+* 8.4.13-apache-2.4.65.0
+* 8.3.26-apache-2.4.65.0
+
+# Supported Platforms
+* linux/amd64
+* linux/arm64
 
 # Unsupported PHP versions
 * 8.2.28-apache-2.4.62.0
