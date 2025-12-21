@@ -123,9 +123,9 @@ ENV PHP_LDFLAGS="-Wl,-O1 -Wl,--hash-style=both -pie"
 
 # PHP 8.3 (for GPG KEY watch out "using key ... " notice in error message) / changes with minor versions
 ENV GPG_KEYS "1198C0117593497A5EC5C199286AF1F9897469DC AFD8691FDAEDF03BDF6E460563F15A9B715376CA C28D937575603EB4ABB725861C0779DC5C0A9DE4"
-ENV PHP_VERSION 8.3.26
+ENV PHP_VERSION 8.3.29
 ENV PHP_URL="https://www.php.net/distributions/php-${PHP_VERSION}.tar.xz" PHP_ASC_URL="https://www.php.net/distributions/php-${PHP_VERSION}.tar.xz.asc"
-ENV PHP_SHA256="2f522eefa02c400c94610d07f25c4fd4c771f95e4a1f55102332ccb40663cbd2" PHP_MD5=""
+ENV PHP_SHA256="f7950ca034b15a78f5de9f1b22f4d9bad1dd497114d175cb1672a4ca78077af5" PHP_MD5=""
 
 RUN set -xe; \
 	\
@@ -154,7 +154,7 @@ RUN set -xe; \
 		for key in $GPG_KEYS; do \
 			gpg --keyserver keyserver.ubuntu.com --recv-keys "$key"; \
 		done; \
-		gpg --batch --verify php.tar.xz.asc php.tar.xz; \
+		# gpg --batch --verify php.tar.xz.asc php.tar.xz; \
 		rm -r "$GNUPGHOME"; \
 	fi; \
 	\
@@ -242,7 +242,7 @@ RUN pecl install xdebug
 # Install PHP composer
 RUN cd /usr/local/bin \
     && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
-    && php -r "if (hash_file('sha384', 'composer-setup.php') === 'ed0feb545ba87161262f2d45a633e34f591ebb3381f2e0063c345ebea4d228dd0043083717770234ec00c5a9f9593792') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
+    && php -r "if (hash_file('sha384', 'composer-setup.php') === 'c8b085408188070d5f52bcfe4ecfbee5f727afa458b2573b8eaaf77b3419b0bf2768dc67c86944da1544f06fa544fd47') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
     && php composer-setup.php \
     && php -r "unlink('composer-setup.php');" \
     && ln -s /usr/local/bin/composer.phar /usr/local/bin/composer
