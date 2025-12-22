@@ -23,7 +23,7 @@ The Dockerhub image name is `technicalguru/php`
 * 7.4.32-apache-2.4.54.0
 
 # Enabled PHP Modules
-* Core
+
 * ctype
 * curl
 * date
@@ -46,8 +46,8 @@ The Dockerhub image name is `technicalguru/php`
 * openssl
 * pcre
 * PDO
-* pdo_mysql
-* pdo_sqlite
+* pdo\_mysql
+* pdo\_sqlite
 * Phar
 * posix
 * random
