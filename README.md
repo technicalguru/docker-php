@@ -10,8 +10,9 @@ The libsodium extension is installed by default on PHP 7.2+
 The Dockerhub image name is `technicalguru/php`
 
 # Current Releases / Tags
-* 8.4.16-apache-2.4.65.0
-* 8.3.29-apache-2.4.65.0
+* 8.5.12-apache-2.4.68.0
+* 8.4.27-apache-2.4.68.0
+* 8.3.36-apache-2.4.68.0
 
 # Supported Platforms
 * linux/amd64
